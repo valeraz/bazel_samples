@@ -1,0 +1,146 @@
+load("@rules_kotlin//kotlin:core.bzl", "kt_compiler_plugin", "kt_ksp_plugin")
+load("@rules_kotlin//kotlin:jvm.bzl", "kt_jvm_library")
+
+package(default_visibility = ["//visibility:public"])
+
+kt_compiler_plugin(
+    name = "jetpack_compose_compiler_plugin",
+    id = "androidx.compose.compiler",
+    target_embedded_compiler = True,
+    visibility = ["//visibility:public"],
+    # TODO: set options from SGP here
+    # https://github.com/slackhq/slack-gradle-plugin/blob/main/slack-plugin/src/main/kotlin/slack/gradle/SlackExtension.kt#L830
+    deps = [
+        "@maven_slack//:androidx_compose_compiler_compiler",
+    ],
+)
+
+kt_compiler_plugin(
+    name = "parcelize_plugin",
+    compile_phase = True,
+    id = "org.jetbrains.kotlin.parcelize",
+    stubs_phase = True,
+    deps = [
+        "@rules_kotlin//kotlin/compiler:parcelize-compiler-plugin",
+    ],
+)
+
+kt_jvm_library(
+    name = "parcelize",
+    srcs = [],
+    exported_compiler_plugins = [":parcelize_plugin"],
+    plugins = [
+        ":parcelize_plugin",
+    ],
+    exports = [
+        "@rules_kotlin//kotlin/compiler:parcelize-runtime",
+    ],
+)
+
+kt_compiler_plugin(
+    name = "redacted_compiler_plugin",
+    id = "dev.zacsweers.redacted.compiler",
+    # these are already defaults, so we shouldn't need them?
+    options = {
+        "enabled": "true",
+        "redactedAnnotation": "dev/zacsweers/redacted/annotations/Redacted",
+        "replacementString": "██",
+    },
+    deps = [
+        "@maven_slack//:dev_zacsweers_redacted_redacted_compiler_plugin",
+        "@maven_slack//:dev_zacsweers_redacted_redacted_compiler_plugin_annotations_jvm",
+    ],
+)
+
+kt_jvm_library(
+    name = "redacted",
+    srcs = [],
+    exported_compiler_plugins = [":redacted_compiler_plugin"],
+    plugins = [
+        ":redacted_compiler_plugin",
+    ],
+    exports = [
+        "@maven_slack//:dev_zacsweers_redacted_redacted_compiler_plugin_annotations_jvm",
+    ],
+)
+
+kt_compiler_plugin(
+    name = "moshix_compiler_plugin",
+    id = "dev.zacsweers.moshix.compiler",
+    options = {
+        "debug": "false",
+        # TODO this shouldn't always be enabled though
+        "enableSealed": "true",
+        "enabled": "true",
+        "generatedAnnotation": "javax/annotation/processing/Generated",
+    },
+    deps = [
+        "@maven_slack//:dev_zacsweers_moshix_moshi_compiler_plugin",
+    ],
+)
+
+kt_ksp_plugin(
+    name = "moshix_proguard_rulegen",
+    processor_class = "dev.zacsweers.moshix.proguardgen.MoshiProguardGenSymbolProcessor",
+    deps = [
+        "@maven_slack//:com_squareup_kotlinpoet_jvm",
+        "@maven_slack//:com_squareup_kotlinpoet_ksp",
+        "@maven_slack//:com_squareup_moshi_moshi",
+        "@maven_slack//:com_squareup_moshi_moshi_kotlin_codegen",
+        "@maven_slack//:dev_zacsweers_moshix_moshi_proguard_rule_gen",
+    ],
+)
+
+kt_jvm_library(
+    name = "moshix",
+    srcs = [],
+    exported_compiler_plugins = [
+        ":moshix_compiler_plugin",
+    ],
+    plugins = [
+        ":moshix_compiler_plugin",
+    ],
+    exports = [
+        "@maven_slack//:com_squareup_moshi_moshi",
+        "@maven_slack//:dev_zacsweers_moshix_moshi_adapters",
+        "@maven_slack//:dev_zacsweers_moshix_moshi_sealed_runtime",
+    ],
+)
+
+java_plugin(
+    name = "dagger_plugin",
+    generates_api = True,
+    processor_class = "dagger.internal.codegen.ComponentProcessor",
+    deps = [
+        "@maven_slack//:com_google_dagger_dagger_compiler",
+    ],
+)
+
+java_library(
+    name = "dagger",
+    exported_plugins = [":dagger_plugin"],
+    exports = [
+        "@maven_slack//:com_google_dagger_dagger",
+        "@maven_slack//:com_google_dagger_dagger_compiler",
+    ],
+)
+
+java_binary(
+    name = "wire",
+    main_class = "com.squareup.wire.WireCompiler",
+    runtime_deps = [
+        "@maven_slack//:com_squareup_kotlinpoet_jvm",
+        "@maven_slack//:com_squareup_wire_wire_compiler",
+        "@maven_slack//:com_squareup_wire_wire_grpc_client_jvm",
+        "@maven_slack//:com_squareup_wire_wire_kotlin_generator",
+        "@maven_slack//:com_squareup_wire_wire_runtime_jvm",
+    ],
+)
+
+kt_ksp_plugin(
+    name = "autoservice",
+    processor_class = "dev.zacsweers.autoservice.ksp.AutoServiceSymbolProcessor",
+    deps = [
+        "@maven_slack//:dev_zacsweers_autoservice_auto_service_ksp",
+    ],
+)

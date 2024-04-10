@@ -1,0 +1,22 @@
+load("@rules_kotlin//kotlin:android.bzl", "kt_android_library")
+
+kt_android_library(
+    name = "android_library_sample",
+    srcs = glob([
+        "src/main/java/**/*.kt",
+    ]),
+    custom_package = "com.grab.test.lib",
+    enable_data_binding = True,
+    manifest = "src/main/AndroidManifest.xml",
+    resource_files = glob(["src/main/res/**"]),
+    visibility = [
+        "//visibility:public",
+    ],
+    deps = [
+        "//third_party:parcelize",
+        "@maven_slack//:com_google_android_material_material",
+        "@maven_slack//:androidx_annotation_annotation",
+        "@maven_slack//:androidx_appcompat_appcompat",
+        "@maven_slack//:androidx_databinding_viewbinding",
+    ],
+)

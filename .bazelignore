@@ -1,0 +1,8 @@
+.git
+tooling-output-base
+bazel-slack-android-ng
+bazel-out
+bazel-bin
+bazel-genfiles
+bazel-testlogs
+.aswb

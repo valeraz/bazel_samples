@@ -1,0 +1,87 @@
+load("@buildifier_prebuilt//:rules.bzl", "buildifier", "buildifier_test")
+load("@rules_android//toolchains/android:toolchain.bzl", "android_toolchain")
+load("@rules_java//java:defs.bzl", "java_binary", "java_import")
+load("@rules_kotlin//kotlin:core.bzl", "define_kt_toolchain", "kt_kotlinc_options")
+
+package(default_visibility = ["//visibility:public"])
+
+# This can be removed once this is merged and released: https://github.com/bazelbuild/rules_kotlin/pull/1111
+define_kt_toolchain(
+    name = "kotlin_toolchain",
+    api_version = "1.9",
+    jvm_target = "17",
+    language_version = "1.9",
+)
+
+_WARNINGS = ["load,load-on-top,out-of-order-load,unsorted-dict-items"]
+
+# Autocorrects. Used for local development.
+buildifier(
+    name = "buildifier",
+    lint_mode = "fix",
+    lint_warnings = _WARNINGS,
+    tags = ["manual"],
+)
+
+# Will not fix, used on CI.
+buildifier_test(
+    name = "buildifier.validate",
+    testonly = True,
+    lint_mode = "warn",
+    lint_warnings = _WARNINGS,
+    mode = "check",
+    no_sandbox = True,
+    tags = ["manual"],
+    workspace = "WORKSPACE",
+)
+
+kt_kotlinc_options(
+    name = "slack_opt_ins",
+    x_optin = [
+        "kotlin.contracts.ExperimentalContracts",
+        "kotlin.experimental.ExperimentalTypeInference",
+        "kotlin.ExperimentalStdlibApi",
+        "kotlin.time.ExperimentalTime",
+    ],
+)
+
+# # Custom Toolchain
+java_import(
+    name = "all_android_tools",
+    jars = ["@android_tools//:all_android_tools_deploy.jar"],
+)
+
+java_binary(
+    name = "ResourceProcessorBusyBox",
+    jvm_flags = [
+        # quiet warnings from com.google.protobuf.UnsafeUtil,
+        # see: https://github.com/google/protobuf/issues/3781
+        "-XX:+IgnoreUnrecognizedVMOptions",
+        "--add-opens=java.base/java.nio=ALL-UNNAMED",
+        "--add-opens=java.base/java.lang=ALL-UNNAMED",
+    ],
+    main_class = "com.google.devtools.build.android.ResourceProcessorBusyBox",
+    visibility = ["//visibility:public"],
+    runtime_deps = [
+        ":all_android_tools",
+    ],
+)
+
+# # Default Android Toolchain
+android_toolchain(
+    name = "slack_android_default",
+    # Hacks to force Bazel to resolve our custom android_tools patches
+    # that we provision in our Bzlmod extensions. Without this
+    # Bazel ends up using the one that's being downloaded by Bazel which doesn't
+    # have the correct patches, and will as a result just crash.
+    # TODO Remove this once rules_android properly supports Bzlmod
+    android_resources_busybox = ":ResourceProcessorBusyBox_deploy.jar",
+    visibility = ["//visibility:public"],
+)
+
+toolchain(
+    name = "slack_android_default_toolchain",
+    toolchain = ":slack_android_default",
+    toolchain_type = "@rules_android//toolchains/android:toolchain_type",
+    visibility = ["//visibility:public"],
+)

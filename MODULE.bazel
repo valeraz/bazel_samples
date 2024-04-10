@@ -1,0 +1,546 @@
+module(name = "slack-android-ng")
+
+MAVEN_ARTIFACTS = [
+    "androidx.activity:activity-compose:1.9.0-alpha03",
+    "androidx.activity:activity-ktx:1.9.0-alpha03",
+    "androidx.activity:activity:1.9.0-alpha03",
+    "androidx.annotation:annotation:1.8.0-alpha01",
+    "androidx.appcompat:appcompat-resources:1.7.0-alpha03",
+    "androidx.appcompat:appcompat:1.7.0-alpha03",
+    "androidx.biometric:biometric:1.2.0-alpha05",
+    "androidx.browser:browser:1.8.0",
+    "androidx.camera:camera-camera2:1.4.0-alpha04",
+    "androidx.camera:camera-extensions:1.4.0-alpha04",
+    "androidx.camera:camera-lifecycle:1.4.0-alpha04",
+    "androidx.camera:camera-video:1.4.0-alpha04",
+    "androidx.camera:camera-view:1.4.0-alpha04",
+    "androidx.cardview:cardview:1.0.0",
+    "androidx.collection:collection:1.4.0",
+    "androidx.compose.animation:animation-graphics-android:1.7.0-alpha06",
+    "androidx.compose.animation:animation:1.7.0-alpha06",
+    "androidx.compose.compiler:compiler:1.5.10",
+    "androidx.compose.foundation:foundation:1.7.0-alpha06",
+    "androidx.compose.material3:material3-window-size-class:1.3.0-alpha02",
+    "androidx.compose.material3:material3:1.3.0-alpha04",
+    "androidx.compose.runtime:runtime-rxjava3:1.7.0-alpha06",
+    "androidx.compose.runtime:runtime:1.7.0-alpha06",
+    "androidx.compose.ui:ui-graphics:1.7.0-alpha06",
+    "androidx.compose.ui:ui-text-google-fonts:1.7.0-alpha06",
+    "androidx.compose.ui:ui-text:1.7.0-alpha06",
+    "androidx.compose.ui:ui-tooling-data:1.7.0-alpha06",
+    "androidx.compose.ui:ui-tooling-preview:1.7.0-alpha06",
+    "androidx.compose.ui:ui-tooling:1.7.0-alpha06",
+    "androidx.compose.ui:ui-unit:1.7.0-alpha06",
+    "androidx.compose.ui:ui-viewbinding:1.7.0-alpha06",
+    "androidx.compose.ui:ui:1.7.0-alpha06",
+    "androidx.concurrent:concurrent-futures-ktx:1.2.0-alpha02",
+    "androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha13",
+    "androidx.constraintlayout:constraintlayout:2.2.0-alpha13",
+    "androidx.coordinatorlayout:coordinatorlayout:1.3.0-alpha02",
+    "androidx.core:core-ktx:1.13.0-alpha05",
+    "androidx.core:core:1.13.0-alpha05",
+    "androidx.databinding:viewbinding:8.2.2",
+    "androidx.datastore:datastore-core:1.1.0-beta02",
+    "androidx.datastore:datastore-preferences-core:1.1.0-beta02",
+    "androidx.datastore:datastore-preferences:1.1.0-beta02",
+    "androidx.emoji2:emoji2:1.5.0-alpha01",
+    "androidx.exifinterface:exifinterface:1.3.7",
+    "androidx.fragment:fragment-compose:1.7.0-alpha10",
+    "androidx.fragment:fragment-ktx:1.7.0-alpha10",
+    "androidx.fragment:fragment:1.7.0-alpha10",
+    "androidx.interpolator:interpolator:1.0.0",
+    "androidx.lifecycle:lifecycle-common:2.8.0-alpha02",
+    "androidx.lifecycle:lifecycle-livedata-ktx:2.8.0-alpha02",
+    "androidx.lifecycle:lifecycle-process:2.8.0-alpha02",
+    "androidx.lifecycle:lifecycle-runtime-ktx:2.8.0-alpha02",
+    "androidx.lifecycle:lifecycle-runtime:2.8.0-alpha02",
+    "androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0-alpha02",
+    "androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0-alpha02",
+    "androidx.lifecycle:lifecycle-viewmodel:2.8.0-alpha02",
+    "androidx.loader:loader:1.1.0",
+    "androidx.paging:paging-compose:3.3.0-alpha04",
+    "androidx.paging:paging-runtime-ktx:3.3.0-alpha04",
+    "androidx.paging:paging-runtime:3.3.0-alpha04",
+    "androidx.paging:paging-rxjava3:3.3.0-alpha04",
+    "androidx.palette:palette:1.0.0",
+    "androidx.profileinstaller:profileinstaller:1.4.0-alpha01",
+    "androidx.recyclerview:recyclerview:1.4.0-alpha01",
+    "androidx.security:security-crypto:1.1.0-alpha06",
+    "androidx.sqlite:sqlite-framework:2.4.0",
+    "androidx.sqlite:sqlite-ktx:2.4.0",
+    "androidx.sqlite:sqlite:2.4.0",
+    "androidx.startup:startup-runtime:1.2.0-alpha02",
+    "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01",
+    "androidx.test.espresso:espresso-idling-resource:3.5.1",
+    "androidx.transition:transition:1.5.0-alpha06",
+    "androidx.viewpager:viewpager:1.1.0-alpha01",
+    "androidx.viewpager2:viewpager2:1.1.0-beta02",
+    "androidx.window:window:1.3.0-alpha03",
+    "androidx.work:work-runtime-ktx:2.10.0-alpha01",
+    "androidx.work:work-runtime:2.10.0-alpha01",
+    "app.cash.molecule:molecule-runtime:1.4.1",
+    "app.cash.sqldelight:android-driver:2.0.1",
+    "app.cash.sqldelight:androidx-paging3-extensions:2.0.1",
+    "app.cash.sqldelight:async-extensions:2.0.1",
+    "app.cash.sqldelight:coroutines-extensions:2.0.1",
+    "app.cash.sqldelight:primitive-adapters:2.0.1",
+    "app.cash.sqldelight:runtime-jvm:2.0.1",
+    "app.cash.sqldelight:runtime:2.0.1",
+    "app.cash.sqldelight:rxjava3-extensions:2.0.1",
+    "com.airbnb.android:lottie-compose:6.4.0",
+    "com.airbnb.android:lottie:6.4.0",
+    "com.android.installreferrer:installreferrer:2.2",
+    "com.bugsnag:bugsnag-android:6.2.0",
+    "com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0",
+    "com.facebook.flipper:flipper-network-plugin:0.247.0",
+    "com.facebook.flipper:flipper:0.247.0",
+    "com.facebook.shimmer:shimmer:0.5.0",
+    "com.facebook.soloader:soloader:0.11.0",
+    "com.github.jinatonic.confetti:confetti:1.1.2",
+    "com.google.accompanist:accompanist-drawablepainter:0.35.0-alpha",
+    "com.google.android.exoplayer:exoplayer:2.18.7",
+    "com.google.android.exoplayer:extension-mediasession:2.18.7",
+    "com.google.android.exoplayer:extension-okhttp:2.18.7",
+    "com.google.android.flexbox:flexbox:3.0.0",
+    "com.google.android.gms:play-services-auth-api-phone:18.0.2",
+    "com.google.android.gms:play-services-auth:21.0.0",
+    "com.google.android.gms:play-services-mlkit-barcode-scanning:18.3.0",
+    "com.google.android.material:material:1.11.0",
+    "com.google.android.play:core-ktx:1.8.1",
+    "com.google.auto.service:auto-service-annotations:1.1.1",
+    "com.google.code.findbugs:jsr305:3.0.2",
+    "com.google.code.gson:gson:2.10.1",
+    "com.google.crypto.tink:tink-android:1.12.0",
+    "com.google.dagger:dagger-compiler:2.51",
+    "com.google.devtools.ksp:symbol-processing-api:1.9.23-1.0.19",
+    "com.google.firebase:firebase-messaging:aar:23.1.2",  # Must keep the old version to access the aar target
+    "com.google.guava:guava:33.0.0-jre",
+    "com.google.truth:truth:1.4.1",
+    "com.jakewharton:process-phoenix:2.2.0",
+    "com.jakewharton.rx3:replaying-share-kotlin:3.0.0",
+    "com.jakewharton.rx3:replaying-share:3.0.0",
+    "com.jakewharton.rxbinding4:rxbinding-appcompat:4.0.0",
+    "com.jakewharton.rxbinding4:rxbinding:4.0.0",
+    "com.jakewharton.rxrelay3:rxrelay:3.0.1",
+    "com.linkedin.android.litr:litr:1.5.5",
+    "com.mariten:kanatools:1.3.0",
+    "com.slack.circuit:circuit-codegen-annotations-android:0.19.1",
+    "com.slack.circuit:circuit-foundation-android:0.19.1",
+    "com.slack.circuit:circuit-overlay-android:0.19.1",
+    "com.slack.circuit:circuit-runtime-android:0.19.1",
+    "com.slack.circuit:circuit-runtime-presenter-android:0.19.1",
+    "com.slack.circuit:circuit-runtime-ui-android:0.19.1",
+    "com.slack.circuit:circuitx-android:0.19.1",
+    "com.slack.circuit:circuitx-effects-android:0.19.1",
+    "com.slack.circuit:circuitx-overlays-android:0.19.1",
+    "com.slack.data:client-thrifty:2.1.122",
+    "com.slack.eithernet:eithernet:1.8.1",
+    "com.slack.lint:slack-lint-annotations:0.7.0",
+    "com.slack.moshi:gson-interop:0.4.3",
+    "com.squareup.anvil:annotations:2.5.0-beta04",
+    "com.squareup.anvil:compiler:2.5.0-beta04",
+    "com.squareup:kotlinpoet-ksp:1.16.0",
+    "com.squareup:kotlinpoet-jvm:1.16.0",
+    "com.squareup.moshi:moshi-adapters:1.15.1",
+    "com.squareup.moshi:moshi:1.15.1",
+    "com.squareup.okhttp3:okhttp-brotli:5.0.0-alpha.12",
+    "com.squareup.okhttp3:okhttp:5.0.0-alpha.12",
+    "com.squareup.okio:okio:3.8.0",
+    "com.squareup.retrofit2:retrofit:2.9.0",
+    "com.squareup.wire:wire-runtime:4.9.7",
+    "com.uber.rxdogtag2:rxdogtag:2.0.2",
+    "dev.chrisbanes.insetter:insetter:0.5.0",
+    "dev.zacsweers.autoservice:auto-service-ksp:1.1.0",
+    "dev.zacsweers.moshix:moshi-adapters:0.25.1",
+    "dev.zacsweers.moshix:moshi-compiler-plugin:0.25.1",
+    "dev.zacsweers.moshix:moshi-proguard-rule-gen:0.25.1",
+    "dev.zacsweers.moshix:moshi-sealed-runtime:0.25.1",
+    "dev.zacsweers.redacted:redacted-compiler-plugin-annotations-jvm:1.7.1",
+    "dev.zacsweers.redacted:redacted-compiler-plugin:1.7.1",
+    "io.coil-kt:coil-base:2.6.0",
+    "io.coil-kt:coil-compose:2.6.0",
+    "io.coil-kt:coil-gif:2.6.0",
+    "io.coil-kt:coil-svg:2.6.0",
+    "io.coil-kt:coil-video:2.6.0",
+    "io.github.inflationx:viewpump:2.1.1",
+    "io.reactivex.rxjava3:rxandroid:3.0.2",
+    "io.reactivex.rxjava3:rxjava:3.1.8",
+    "io.requery:sqlite-android:3.39.3-slack01",
+    "javax.inject:javax.inject:1",
+    "junit:junit:4.13.2",
+    "org.jetbrains.kotlinx:kotlinx-collections-immutable-jvm:0.3.7",
+    "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7",
+    "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0",
+    "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0",
+    "org.jetbrains.kotlinx:kotlinx-coroutines-rx3:1.8.0",
+    "org.reactivestreams:reactive-streams:1.0.4",
+    "org.threeten:threeten-extra:1.7.2",
+    "slack.internal:android-emoji-data:00020",
+    "slack.internal:android-emoji-model:00020",
+    "slack.internal:rootdetection:00005",
+    "slack.internal:sticky-headers-recyclerview:00001",
+    "slack.internal.perfetto:perfettotracing:00002",
+    "slack.internal.quip:collab-sdk:1.4.413",
+    "slack.internal.quip:jni:1.4.413",
+    "slack.internal.quip:protos:1.4.413",
+    "slack.internal.vulcan:guinness-compiler:00230",
+    "slack.internal.vulcan:guinness:00230",
+    "slack.internal.vulcan:slack-api-common-schemas:00230",
+    "slack.internal.vulcan:slack-api-methods-admin-roles-entity:00230",
+    "slack.internal.vulcan:slack-api-methods-ai-alpha-digest:00230",
+    "slack.internal.vulcan:slack-api-methods-ai-alpha-summarize:00230",
+    "slack.internal.vulcan:slack-api-methods-apps-actions-v2:00230",
+    "slack.internal.vulcan:slack-api-methods-apps-actions:00230",
+    "slack.internal.vulcan:slack-api-methods-apps-auth-external-authMapping:00230",
+    "slack.internal.vulcan:slack-api-methods-apps-auth-external:00230",
+    "slack.internal.vulcan:slack-api-methods-apps-home:00230",
+    "slack.internal.vulcan:slack-api-methods-auth:00230",
+    "slack.internal.vulcan:slack-api-methods-blocks:00230",
+    "slack.internal.vulcan:slack-api-methods-bookmarks:00230",
+    "slack.internal.vulcan:slack-api-methods-bots:00230",
+    "slack.internal.vulcan:slack-api-methods-calendar-event:00230",
+    "slack.internal.vulcan:slack-api-methods-calls:00230",
+    "slack.internal.vulcan:slack-api-methods-canvases:00230",
+    "slack.internal.vulcan:slack-api-methods-channels-prefs:00230",
+    "slack.internal.vulcan:slack-api-methods-chat:00230",
+    "slack.internal.vulcan:slack-api-methods-client:00230",
+    "slack.internal.vulcan:slack-api-methods-commands:00230",
+    "slack.internal.vulcan:slack-api-methods-connectInvites:00230",
+    "slack.internal.vulcan:slack-api-methods-contacts:00230",
+    "slack.internal.vulcan:slack-api-methods-conversations:00230",
+    "slack.internal.vulcan:slack-api-methods-dialog:00230",
+    "slack.internal.vulcan:slack-api-methods-dnd:00230",
+    "slack.internal.vulcan:slack-api-methods-drafts:00230",
+    "slack.internal.vulcan:slack-api-methods-emails:00230",
+    "slack.internal.vulcan:slack-api-methods-eventlog:00230",
+    "slack.internal.vulcan:slack-api-methods-externalWorkspaces:00230",
+    "slack.internal.vulcan:slack-api-methods-files-comments:00230",
+    "slack.internal.vulcan:slack-api-methods-files-docs:00230",
+    "slack.internal.vulcan:slack-api-methods-files:00230",
+    "slack.internal.vulcan:slack-api-methods-functions-workflows:00230",
+    "slack.internal.vulcan:slack-api-methods-gif:00230",
+    "slack.internal.vulcan:slack-api-methods-help-issues:00230",
+    "slack.internal.vulcan:slack-api-methods-huddles-scheduled:00230",
+    "slack.internal.vulcan:slack-api-methods-huddles:00230",
+    "slack.internal.vulcan:slack-api-methods-i18n-translations:00230",
+    "slack.internal.vulcan:slack-api-methods-lists-cells:00230",
+    "slack.internal.vulcan:slack-api-methods-lists-columns:00230",
+    "slack.internal.vulcan:slack-api-methods-lists-records:00230",
+    "slack.internal.vulcan:slack-api-methods-lists-views:00230",
+    "slack.internal.vulcan:slack-api-methods-lists:00230",
+    "slack.internal.vulcan:slack-api-methods-media-progress:00230",
+    "slack.internal.vulcan:slack-api-methods-moderation-flags:00230",
+    "slack.internal.vulcan:slack-api-methods-moderation:00230",
+    "slack.internal.vulcan:slack-api-methods-pins:00230",
+    "slack.internal.vulcan:slack-api-methods-presence:00230",
+    "slack.internal.vulcan:slack-api-methods-push:00230",
+    "slack.internal.vulcan:slack-api-methods-quip:00230",
+    "slack.internal.vulcan:slack-api-methods-reactions:00230",
+    "slack.internal.vulcan:slack-api-methods-rooms:00230",
+    "slack.internal.vulcan:slack-api-methods-salesHome-auth:00230",
+    "slack.internal.vulcan:slack-api-methods-salesHome-listViewSections:00230",
+    "slack.internal.vulcan:slack-api-methods-salesHome-notifications:00230",
+    "slack.internal.vulcan:slack-api-methods-salesHome-salesforceOrgs:00230",
+    "slack.internal.vulcan:slack-api-methods-saved:00230",
+    "slack.internal.vulcan:slack-api-methods-screenhero-rooms:00230",
+    "slack.internal.vulcan:slack-api-methods-search-autocomplete:00230",
+    "slack.internal.vulcan:slack-api-methods-search-modules:00230",
+    "slack.internal.vulcan:slack-api-methods-search:00230",
+    "slack.internal.vulcan:slack-api-methods-sessions:00230",
+    "slack.internal.vulcan:slack-api-methods-sfdc-activities:00230",
+    "slack.internal.vulcan:slack-api-methods-sfdc:00230",
+    "slack.internal.vulcan:slack-api-methods-sharedInvites:00230",
+    "slack.internal.vulcan:slack-api-methods-sharedWorkspaces-invites:00230",
+    "slack.internal.vulcan:slack-api-methods-signin:00230",
+    "slack.internal.vulcan:slack-api-methods-signup:00230",
+    "slack.internal.vulcan:slack-api-methods-stars:00230",
+    "slack.internal.vulcan:slack-api-methods-subscriptions-thread:00230",
+    "slack.internal.vulcan:slack-api-methods-team-slackConnectGuidelines:00230",
+    "slack.internal.vulcan:slack-api-methods-team:00230",
+    "slack.internal.vulcan:slack-api-methods-templates:00230",
+    "slack.internal.vulcan:slack-api-methods-unread:00230",
+    "slack.internal.vulcan:slack-api-methods-usergroups-onboarding:00230",
+    "slack.internal.vulcan:slack-api-methods-usergroups-users:00230",
+    "slack.internal.vulcan:slack-api-methods-users-admin:00230",
+    "slack.internal.vulcan:slack-api-methods-users-channelSections-channels:00230",
+    "slack.internal.vulcan:slack-api-methods-users-channelSections:00230",
+    "slack.internal.vulcan:slack-api-methods-users-customStatus:00230",
+    "slack.internal.vulcan:slack-api-methods-users-emailVerificationStatus:00230",
+    "slack.internal.vulcan:slack-api-methods-users-inviteRequests:00230",
+    "slack.internal.vulcan:slack-api-methods-users-prefs:00230",
+    "slack.internal.vulcan:slack-api-methods-users-profile:00230",
+    "slack.internal.vulcan:slack-api-methods-users-sharedInvites:00230",
+    "slack.internal.vulcan:slack-api-methods-users:00230",
+    "slack.internal.vulcan:slack-api-methods-views:00230",
+    "slack.internal.vulcan:slack-api-methods-widgets-placements:00230",
+    "slack.internal.vulcan:slack-api-methods-widgets:00230",
+    "slack.internal.vulcan:slack-api-methods-workflows-suggestions:00230",
+    "slack.internal.vulcan:slack-api-methods-workflows-triggers-context:00230",
+    "slack.internal.vulcan:slack-api-methods-workflows-triggers:00230",
+    "slack.internal.vulcan:slack-api-methods-workflows:00230",
+    "slack.internal.vulcan:slack-api-schemas-block-kit-input-atoms:00230",
+    "slack.internal.vulcan:slack-api-schemas-block-kit-input-blocks:00230",
+    "slack.internal.vulcan:slack-api-schemas-block-kit-input-elements:00230",
+    "slack.internal.vulcan:slack-api-schemas-block-kit-output-atoms:00230",
+    "slack.internal.vulcan:slack-api-schemas-sfdc:00230",
+    "slack.internal.vulcan:slack-api-schemas-slack-connect:00230",
+    "slack.internal.vulcan:slack-api-schemas-slack-functions:00230",
+    "software.aws.chimesdk:amazon-chime-sdk-media:0.18.0",
+    "software.aws.chimesdk:amazon-chime-sdk:0.18.0",
+]
+
+# Only list dependencies here that are required to disambiguate transitive deps that are not already listed in the set above
+FORCED_MAVEN_ARTIFACTS = [
+    "androidx.compose.material:material-icons-core:1.6.0",
+    "androidx.compose.material:material-ripple:1.7.0-alpha06",
+    "org.jetbrains.compose.runtime:runtime:1.6.0",
+]
+
+bazel_dep(name = "rules_java", version = "7.5.0")
+bazel_dep(name = "rules_jvm_external", version = "6.0")
+bazel_dep(name = "bazel_skylib", version = "1.5.0")
+bazel_dep(name = "buildifier_prebuilt", version = "6.4.0")
+bazel_dep(name = "apple_support", version = "1.15.1", repo_name = "build_bazel_apple_support")
+
+RULES_JVM_EXTERNAL_SHA = "5f47c87cdc4fd56afc45dbfef1588837b2c7784f"
+
+archive_override(
+    module_name = "rules_jvm_external",
+    strip_prefix = "rules_jvm_external-{}".format(RULES_JVM_EXTERNAL_SHA),
+    urls = [
+        "https://github.com/erikkerber/rules_jvm_external/archive/{}.zip".format(RULES_JVM_EXTERNAL_SHA),
+    ],
+)
+
+remote_android_extensions = use_extension("@bazel_tools//tools/android:android_extensions.bzl", "remote_android_tools_extensions")
+use_repo(remote_android_extensions, "android_gmaven_r8")
+
+maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+
+# Issue: Workaround for Vulcan cycle in dependency graph error
+#        - https://github.com/bazelbuild/rules_jvm_external/issues/966
+# Why not put this in the maven.install call? See https://github.com/bazelbuild/rules_jvm_external/blob/master/docs/bzlmod.md#artifact-exclusion
+maven.artifact(
+    name = "maven_slack",
+    artifact = "slack-api-schemas-files-output",
+    exclusions = [
+        "slack.internal.vulcan:slack-api-schemas-saved-output",
+        "slack.internal.vulcan:slack-api-common-schemas",
+    ],
+    group = "slack.internal.vulcan",
+    version = "00230",
+)
+maven.artifact(
+    name = "maven_slack",
+    artifact = "slack-api-schemas-lists",
+    exclusions = [
+        "slack.internal.vulcan:slack-api-schemas-block-kit-output-blocks",
+        "slack.internal.vulcan:slack-api-common-schemas",
+    ],
+    group = "slack.internal.vulcan",
+    version = "00230",
+)
+maven.artifact(
+    name = "maven_slack",
+    artifact = "slack-api-schemas-block-kit-input-elements-common",
+    exclusions = [
+        "slack.internal.vulcan:slack-api-schemas-block-kit-input-elements",
+    ],
+    group = "slack.internal.vulcan",
+    version = "00230",
+)
+maven.artifact(
+    name = "maven_slack",
+    artifact = "slack-api-schemas-block-kit-output-elements-common",
+    exclusions = [
+        "slack.internal.vulcan:slack-api-schemas-block-kit-output-elements",
+    ],
+    group = "slack.internal.vulcan",
+    version = "00230",
+)
+maven.artifact(
+    name = "maven_slack",
+    artifact = "slack-api-schemas-block-kit-output-elements",
+    exclusions = [
+        "slack.internal.vulcan:slack-api-schemas-block-kit-output-blocks",
+        "slack.internal.vulcan:slack-api-schemas-block-kit-output-atoms",
+    ],
+    group = "slack.internal.vulcan",
+    version = "00230",
+)
+maven.artifact(
+    name = "maven_slack",
+    artifact = "slack-api-schemas-block-kit-output",
+    exclusions = [
+        "slack.internal.vulcan:slack-api-schemas-block-kit-output-elements",
+        "slack.internal.vulcan:slack-api-schemas-block-kit-output-blocks",
+    ],
+    group = "slack.internal.vulcan",
+    version = "00230",
+)
+maven.artifact(
+    name = "maven_slack",
+    artifact = "slack-api-schemas-slack-functions-workflows",
+    exclusions = [
+        "slack.internal.vulcan:slack-api-schemas-slack-functions",
+        "slack.internal.vulcan:slack-api-common-schemas",
+    ],
+    group = "slack.internal.vulcan",
+    version = "00230",
+)
+maven.artifact(
+    name = "maven_slack",
+    artifact = "slack-api-schemas-slack-functions",
+    exclusions = [
+        "slack.internal.vulcan:slack-api-common-schemas",
+    ],
+    group = "slack.internal.vulcan",
+    version = "00230",
+)
+maven.artifact(
+    name = "maven_slack",
+    artifact = "slack-api-schemas-block-kit-input-atoms",
+    exclusions = [
+        "slack.internal.vulcan:slack-api-schemas-block-kit-input-elements",
+        "slack.internal.vulcan:slack-api-common-schemas",
+    ],
+    group = "slack.internal.vulcan",
+    version = "00230",
+)
+maven.artifact(
+    name = "maven_slack",
+    artifact = "slack-api-schemas-block-kit-input-elements",
+    exclusions = [
+        "slack.internal.vulcan:slack-api-schemas-block-kit-input-blocks",
+    ],
+    group = "slack.internal.vulcan",
+    version = "00230",
+)
+maven.artifact(
+    name = "maven_slack",
+    artifact = "slack-api-schemas-block-kit-input",
+    exclusions = [
+        "slack.internal.vulcan:slack-api-schemas-block-kit-input-elements",
+        "slack.internal.vulcan:slack-api-schemas-block-kit-input-blocks",
+    ],
+    group = "slack.internal.vulcan",
+    version = "00230",
+)
+maven.artifact(
+    name = "maven_slack",
+    artifact = "slack-api-schemas-block-kit-common",
+    exclusions = [
+        "slack.internal.vulcan:slack-api-common-schemas",
+    ],
+    group = "slack.internal.vulcan",
+    version = "00230",
+)
+maven.artifact(
+    name = "maven_slack",
+    artifact = "slack-api-schemas-block-kit-input-blocks",
+    exclusions = [
+        "slack.internal.vulcan:slack-api-common-schemas",
+    ],
+    group = "slack.internal.vulcan",
+    version = "00230",
+)
+maven.artifact(
+    name = "maven_slack",
+    artifact = "slack-api-schemas-lists-output",
+    exclusions = [
+        "slack.internal.vulcan:slack-api-common-schemas",
+    ],
+    group = "slack.internal.vulcan",
+    version = "00230",
+)
+maven.artifact(
+    name = "maven_slack",
+    artifact = "slack-api-schemas-messages-output",
+    exclusions = [
+        "slack.internal.vulcan:slack-api-common-schemas",
+    ],
+    group = "slack.internal.vulcan",
+    version = "00230",
+)
+maven.artifact(
+    name = "maven_slack",
+    artifact = "slack-api-schemas-canvas-output-items",
+    exclusions = [
+        "slack.internal.vulcan:slack-api-common-schemas",
+    ],
+    group = "slack.internal.vulcan",
+    version = "00230",
+)
+maven.artifact(
+    name = "maven_slack",
+    artifact = "slack-api-schemas-block-kit-output-blocks",
+    exclusions = [
+        "slack.internal.vulcan:slack-api-common-schemas",
+    ],
+    group = "slack.internal.vulcan",
+    version = "00230",
+)
+maven.artifact(
+    name = "maven_slack",
+    artifact = "slack-api-schemas-huddles-output",
+    exclusions = [
+        "slack.internal.vulcan:slack-api-common-schemas",
+    ],
+    group = "slack.internal.vulcan",
+    version = "00230",
+)
+maven.artifact(
+    name = "maven_slack",
+    artifact = "slack-api-schemas-containers-output",
+    exclusions = [
+        "slack.internal.vulcan:slack-api-common-schemas",
+    ],
+    group = "slack.internal.vulcan",
+    version = "00230",
+)
+maven.artifact(
+    name = "maven_slack",
+    artifact = "slack-api-schemas-ai-output",
+    exclusions = [
+        "slack.internal.vulcan:slack-api-common-schemas",
+    ],
+    group = "slack.internal.vulcan",
+    version = "00230",
+)
+# end Workaround for Vulcan cycle in dependency graph error
+
+maven.install(
+    name = "maven_slack",
+    # This defaults to the old @io_bazel_rules_android, which is why it is overridden.
+    aar_import_bzl_label = "@rules_android//android:rules.bzl",
+    artifacts = MAVEN_ARTIFACTS + FORCED_MAVEN_ARTIFACTS +
+    # TODO — these are hardcoded here until an Airin Feature can be written
+    #        to add these as part of general Bazel automation
+    [
+        "com.squareup.wire:wire-runtime-jvm:4.9.7",
+        "com.squareup.wire:wire-compiler:4.9.7",
+    ],
+    duplicate_version_warning = "error",
+    fail_if_repin_required = False,
+    lock_file = "//:maven_install.json",
+    repositories = [
+        "https://slack.jfrog.io/slack/libs-android",
+        "https://maven.google.com",
+        "https://repo1.maven.org/maven2",
+    ],
+    use_credentials_from_home_netrc_file = True,
+    use_starlark_android_rules = True,
+    version_conflict_policy = "pinned",
+)
+use_repo(
+    maven,
+    "maven_slack",
+    "unpinned_maven_slack",
+)
+
+apple_cc_configure = use_extension("@build_bazel_apple_support//crosstool:setup.bzl", "apple_cc_configure_extension")
+use_repo(apple_cc_configure, "local_config_apple_cc")
+
+register_toolchains(
+    "@slack-android-ng//:kotlin_toolchain",
+)

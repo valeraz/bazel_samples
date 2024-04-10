@@ -1,0 +1,133 @@
+# Puts the user root in a location that aligns with Crowdstrike rules
+startup --output_user_root=~/.cache/bazel
+
+# The new BLAKE3 digest function is faster than SHA256, new in Bazel 6.4.0
+startup --digest_function=blake3
+
+# Workaround for hangs with 7.1.x
+common --experimental_worker_for_repo_fetching=off
+
+# If the stderr from an action is over 1MB, Bazel doesn't print it to console. This raises that limit to unlimited.
+common --experimental_ui_max_stdouterr_bytes=-1
+
+# When a build fails, print the full command that was run.
+build --verbose_failures
+
+# Make it an error if glob() returns an empty list.
+# NOTE: Disabling while some rules we use violate this setting
+#common --incompatible_disallow_empty_glob
+
+# Generally free performance boost made robust in Bazel 7. May eventually be default.
+build --reuse_sandbox_directories
+
+# Set Java explicitly to remote jdk21 for build hermeticity, not defaulting to the local_jdk
+common --java_runtime_version=remotejdk_21
+common --tool_java_runtime_version=remotejdk_21
+common --repo_env=JAVA_HOME=../bazel_tools/jdk
+
+# Avoid popping up the Java GUI in the macos dock
+build --host_jvmopt="-Dapple.awt.UIElement=true" --jvmopt="-Dapple.awt.UIElement=true"
+
+#######################
+# Test
+
+# When tests fail, output the error detail.
+test --test_output=errors
+
+# When executing tests, add a 60 minute timeout
+test --test_timeout=3600
+
+#######################
+# Android
+
+# Flags suggested and required to run the Starlark rules_android rules
+common --experimental_enable_android_migration_apis
+common --experimental_google_legacy_api
+common --incompatible_java_common_parameters
+common --android_databinding_use_v3_4_args
+common --experimental_android_databinding_v2
+common --incompatible_disable_native_android_rules=true
+
+# Flags recommended by the community:
+# Enable namespaced resources
+build --define=namespaced_r_class=true
+# Turn off asset merging
+build --output_library_merged_assets=false
+
+common --noincompatible_enable_android_toolchain_resolution
+common --noincompatible_enable_cc_toolchain_resolution
+common --experimental_use_rtxt_from_merged_resources=true
+
+#########################
+# BuildBuddy — Event Streaming
+
+# BES backend and results URL drive build traces on buildbuddy.io
+build:buildbuddy --bes_backend=grpcs://remote.buildbuddy.io
+build:buildbuddy --bes_results_url=https://app.buildbuddy.io/invocation/
+
+########################
+# Cache
+
+# Don't upload results to the remote cache (overridden for CI workers)
+build --noremote_upload_local_results
+
+# Prevent poisoned cache
+build --experimental_guard_against_concurrent_changes
+
+# Async uploads won't wait for uploads to complete builds
+build --experimental_remote_cache_async
+
+# Compresses both uploads and downloads for performance gains
+build --experimental_remote_cache_compression
+
+#########################
+# Cache — Disk
+
+# Similar to user root above. Also a Salesforce convention
+build --disk_cache=~/.cache/bazel-disk-cache
+
+# --noremote_upload_local_results should not apply to the disk_cache
+build --incompatible_remote_results_ignore_disk
+
+#########################
+# Cache — Remote
+
+# Config that turns on remote cache for BuildBuddy
+build:buildbuddy_cache --remote_cache=grpcs://remote.buildbuddy.io --config=buildbuddy --config=cache
+
+#######################
+# CI
+
+# BuildBuddy: Special tracking for CI builds
+build:ci --build_metadata=ROLE=CI
+
+# CI populates the remote cache for other CI builds to read from
+build:ci --remote_upload_local_results
+
+######################
+# Devlocity
+common:develocity --bes_results_url=https://gradle-enterprise.tinyspeck.com/build/
+common:develocity --bes_backend=grpcs://gradle-enterprise.tinyspeck.com
+common:develocity --build_event_publish_all_actions=true
+common:develocity --noslim_profile
+
+# Add an additional config layer to adapt to different levels of developcity permissions
+common:develocity_remote --config=develocity
+common:develocity_remote --remote_cache=grpcs://gradle-enterprise.tinyspeck.com
+
+# BuildBuddy credentials
+try-import auth.bazelrc
+
+# Optional user-specific bazelrc file
+try-import user.bazelrc
+
+#######################
+rules_kotlin
+
+# rules_kotlin implements KSP in an unsafe way by running each processor in a different worker
+# https://slack-pde.slack.com/archives/C06CSBC0WQ6/p1710351019856319
+build --worker_max_multiplex_instances=KotlinKsp=1
+
+# Workaround for JDK 21 issue: https://github.com/bazelbuild/rules_kotlin/issues/1062 that is not (yet)
+# in https://github.com/Bencodes/rules_kotlin/commits/blee/fork/master-napt-1.8-rules-android-pre-alpha
+build --worker_extra_flag='KotlinKapt=--wrapper_script_flag=--jvm_flags=--add-opens=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED'
