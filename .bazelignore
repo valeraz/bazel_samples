@@ -1,6 +1,6 @@
 .git
 tooling-output-base
-bazel-slack-android-ng
+bazel-bazel_samples
 bazel-out
 bazel-bin
 bazel-genfiles

@@ -1,4 +1,13 @@
 .DS_Store
-bazel-out
-bazel-bin
-bazel-testlogs
+
+# Bzlmod helps speed up local development, but the hashes aren't completely reproducible across machines.
+# For not, ignore and keep lockfiles local:
+MODULE.bazel.lock
+
+# Ignore all bazel-* symlinks. There is no full list since this can change
+# based on the name of the directory bazel is cloned into.
+/bazel-*
+
+# Ignore all *.bazelrc files. .bazelrc itself we commit and share
+*.bazelrc
+!.bazelrc
