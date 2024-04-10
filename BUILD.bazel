@@ -76,6 +76,7 @@ android_toolchain(
     # have the correct patches, and will as a result just crash.
     # TODO Remove this once rules_android properly supports Bzlmod
     android_resources_busybox = ":ResourceProcessorBusyBox_deploy.jar",
+    # import_deps_checker = ":ImportDepsChecker"
     visibility = ["//visibility:public"],
 )
 
