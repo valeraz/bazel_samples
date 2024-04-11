@@ -1,6 +1,6 @@
 {
   "lockFileVersion": 6,
-  "moduleFileHash": "a2fd9ec9e78dbe04ce981993ca0ce2bac9d1699f0d55d39661b6e50d8eddc08a",
+  "moduleFileHash": "d6d40ff0c5716f28c3225d955284cd2efe42bf1bed69ec5c416452856635bd3a",
   "flags": {
     "cmdRegistries": [
       "https://bcr.bazel.build/"
@@ -13,7 +13,7 @@
     "compatibilityMode": "ERROR"
   },
   "localOverrideHashes": {
-    "bazel_tools": "e82a6b9d2289bd561deefe937f051155137c26d22da6fc1b01c1bdd59f3b393f"
+    "bazel_tools": "1ae69322ac3823527337acf02016e8ee95813d8d356f47060255b8956fa642f0"
   },
   "moduleDepGraph": {
     "<root>": {
@@ -36,7 +36,8 @@
             "column": 42
           },
           "imports": {
-            "android_gmaven_r8": "android_gmaven_r8"
+            "android_gmaven_r8": "android_gmaven_r8",
+            "android_tools": "android_tools"
           },
           "devImports": [],
           "tags": [],
@@ -1459,29 +1460,12 @@
           "hasNonDevUseExtension": true
         },
         {
-          "extensionBzlFile": "@bazel_tools//tools/android:android_extensions.bzl",
-          "extensionName": "android_sdk_proxy_extensions",
-          "usingModule": "bazel_tools@_",
-          "location": {
-            "file": "@@bazel_tools//:MODULE.bazel",
-            "line": 46,
-            "column": 45
-          },
-          "imports": {
-            "android_external": "android_external"
-          },
-          "devImports": [],
-          "tags": [],
-          "hasDevUseExtension": false,
-          "hasNonDevUseExtension": true
-        },
-        {
           "extensionBzlFile": "@buildozer//:buildozer_binary.bzl",
           "extensionName": "buildozer_binary",
           "usingModule": "bazel_tools@_",
           "location": {
             "file": "@@bazel_tools//:MODULE.bazel",
-            "line": 50,
+            "line": 47,
             "column": 33
           },
           "imports": {
@@ -2322,7 +2306,7 @@
     },
     "@@bazel_tools//tools/android:android_extensions.bzl%remote_android_tools_extensions": {
       "general": {
-        "bzlTransitiveDigest": "xpQGJ/qXwNi7fZrmB4apQZCOHuSsyTgPZ/ALeGUOsB8=",
+        "bzlTransitiveDigest": "iOoceka/s+YIUcHtfW5zIw04t5y6m40aUJTrZnEmme8=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -2339,8 +2323,8 @@
             "bzlFile": "@@bazel_tools//tools/build_defs/repo:http.bzl",
             "ruleClassName": "http_jar",
             "attributes": {
-              "sha256": "a1d7f902d56cfa8d1e8cd64aa250e63549359fcd096eb793286787b1a1e76db1",
-              "url": "https://maven.google.com/com/android/tools/r8/8.2.42/r8-8.2.42.jar"
+              "sha256": "57a696749695a09381a87bc2f08c3a8ed06a717a5caa3ef878a3077e0d3af19d",
+              "url": "https://maven.google.com/com/android/tools/r8/8.1.56/r8-8.1.56.jar"
             }
           }
         },
@@ -2349,7 +2333,7 @@
     },
     "@@bazel_tools//tools/cpp:cc_configure.bzl%cc_configure_extension": {
       "general": {
-        "bzlTransitiveDigest": "IgsicAnbyRKaF3ug0xkRLZcV5LFeF6TCccR81KWavJs=",
+        "bzlTransitiveDigest": "F0MZTR+Bp/5mIdp0bI3U9XSQNgg4ZVvq+BfXxciw0wc=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -2411,7 +2395,7 @@
     },
     "@@buildifier_prebuilt~//:defs.bzl%buildifier_prebuilt_deps_extension": {
       "general": {
-        "bzlTransitiveDigest": "rF9YUBMsIJ1qF4Xyn5zfBpr+nRmtYX6eNq8iXHYAihE=",
+        "bzlTransitiveDigest": "2G8ISi8zxMS0GPGuwsUdNLHxLWZKdxkQw77qU2Y9NJQ=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -2560,7 +2544,7 @@
     },
     "@@rules_java~//java:extensions.bzl%toolchains": {
       "general": {
-        "bzlTransitiveDigest": "zTquCjqqTN3dJdoemHskI21457q7JMsCZVw6g4OyDGQ=",
+        "bzlTransitiveDigest": "s7l1W/lBH5rJpu66bGBd+9GGHBclOTgOTGypS+MEAhg=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -3125,7 +3109,7 @@
     },
     "@@rules_jvm_external~//:extensions.bzl%maven": {
       "general": {
-        "bzlTransitiveDigest": "zVPUd4QCqRewyhZG80svirdd6s6Hv9QQL8DdJwkokOA=",
+        "bzlTransitiveDigest": "8wNkT1+5ahu/ZKc7oVinGP+atYbgXvbmG5w1N0KgM9M=",
         "recordedFileInputs": {
           "@@rules_jvm_external~//rules_jvm_external_deps_install.json": "7efd0db2995b0694d37c65713eeb659cf5a5351a16de376fb8c926acebd0ef7c",
           "@@//maven_install.json": "7a05772911791b9886292d8bc84f6f78435c983028f4bf99ec1bc84adecd2932"
@@ -14081,7 +14065,7 @@
     },
     "@@rules_kotlin~//src/main/starlark/core/repositories:bzlmod_setup.bzl%rules_kotlin_extensions": {
       "general": {
-        "bzlTransitiveDigest": "0/69WLZqvyBoJlss3II02gA5nAwr0BK0DXH8Hc+ZbzI=",
+        "bzlTransitiveDigest": "FbVSZQC2H/RU3OAEK/afoEamQGGs/Sr+UjJGoc5sd2I=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -14161,7 +14145,7 @@
     },
     "@@rules_python~//python/extensions:python.bzl%python": {
       "general": {
-        "bzlTransitiveDigest": "cUQbQ3aVLvV2NE32OMS8moPXUBina8Ma1MH0kSuEs1c=",
+        "bzlTransitiveDigest": "VK446sP2BaOQBFoLV+T87CZYWoKcrJg2yGR4xAwssK4=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},

@@ -8,10 +8,10 @@ android_sdk_repository(
     workspace_name = "_main",
 )
 
-local_repository(
-    name = "android_tools",
-    path = "android_tools"
-)
+# local_repository(
+#     name = "android_tools",
+#     path = "android_tools"
+# )
 
 # rules_android
 # From https://github.com/Bencodes/rules_android/commits/blee/fork/main/
@@ -38,9 +38,9 @@ rules_android_maven_install()
 
 register_toolchains(
     # Providing a custom Android toolchain so that we can wrap tools
-    "//:slack_android_default_toolchain",
+    # "//:slack_android_default_toolchain",
     "@rules_android//toolchains/android_sdk:all",
-    # "@rules_android//toolchains/android:android_default_toolchain",
+    "@rules_android//toolchains/android:android_default_toolchain",
     # "@rules_android//toolchains/android_sdk:android_sdk_tools",
 )
 
