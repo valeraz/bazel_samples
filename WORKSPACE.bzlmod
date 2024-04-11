@@ -8,15 +8,9 @@ android_sdk_repository(
     workspace_name = "_main",
 )
 
-## Points to a local build of android_tools from Ben's fork https://github.com/Bencodes/bazel/commits/blee/fork/8.0.0-pre.20240303.2
-## Built at commit: da7dd5a2e3031112d59246b908a5120a05ddee00
-## Build bazel build //tools/android/runtime_deps:android_tools --experimental_cc_shared_library
-## Published manually to our artifactory
-# TODO: switch this to point at the `android/tools/android_tools.tar` in this repo
-http_archive(
+local_repository(
     name = "android_tools",
-    sha256 = "088372853f05eee25822b394674a5bb4ee62b3f03c4a55f76977ea0e510f306e",
-    url = "https://slack.jfrog.io/artifactory/bazel/tools/android/runtime_deps/da7dd5a2/android_tools.tar",
+    path = "android_tools"
 )
 
 # rules_android
