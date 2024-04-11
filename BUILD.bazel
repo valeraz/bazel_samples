@@ -68,21 +68,21 @@ java_binary(
 )
 
 # # Default Android Toolchain
-# android_toolchain(
-#     name = "slack_android_default",
-#     # Hacks to force Bazel to resolve our custom android_tools patches
-#     # that we provision in our Bzlmod extensions. Without this
-#     # Bazel ends up using the one that's being downloaded by Bazel which doesn't
-#     # have the correct patches, and will as a result just crash.
-#     # TODO Remove this once rules_android properly supports Bzlmod
-#     android_resources_busybox = ":ResourceProcessorBusyBox_deploy.jar",
-#     # import_deps_checker = ":ImportDepsChecker"
-#     visibility = ["//visibility:public"],
-# )
+android_toolchain(
+    name = "slack_android_default",
+    # Hacks to force Bazel to resolve our custom android_tools patches
+    # that we provision in our Bzlmod extensions. Without this
+    # Bazel ends up using the one that's being downloaded by Bazel which doesn't
+    # have the correct patches, and will as a result just crash.
+    # TODO Remove this once rules_android properly supports Bzlmod
+    android_resources_busybox = ":ResourceProcessorBusyBox_deploy.jar",
+    # import_deps_checker = ":ImportDepsChecker"
+    visibility = ["//visibility:public"],
+)
 
-# toolchain(
-#     name = "slack_android_default_toolchain",
-#     toolchain = ":slack_android_default",
-#     toolchain_type = "@rules_android//toolchains/android:toolchain_type",
-#     visibility = ["//visibility:public"],
-# )
+toolchain(
+    name = "slack_android_default_toolchain",
+    toolchain = ":slack_android_default",
+    toolchain_type = "@rules_android//toolchains/android:toolchain_type",
+    visibility = ["//visibility:public"],
+)
