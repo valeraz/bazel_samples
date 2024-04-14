@@ -1,5 +1,7 @@
 .DS_Store
 
+.aswb
+
 # Bzlmod helps speed up local development, but the hashes aren't completely reproducible across machines.
 # For not, ignore and keep lockfiles local:
 MODULE.bazel.lock
