@@ -15,13 +15,13 @@ local_repository(
 
 # rules_android
 # From https://github.com/Bencodes/rules_android/commits/blee/fork/main/
-RULES_ANDROID_SHA = "75b8ed4ab64eff0875d84c777551f1e9f5b94c04"
+RULES_ANDROID_SHA = "6a2e03fcdc33413e3180880ba8be66fef317a93d"
 
 http_archive(
     name = "rules_android",
-    integrity = "sha256-HS9ALajRGIHJa4XvJEVvHo2Xg9di82DqJsU7WIC+us4=",
+    integrity = "sha256-1ZAxP9r/ZgDFDRAEMR3GZhqh91jFJbxE9tKEnBBdHKE=",
     strip_prefix = "rules_android-{}".format(RULES_ANDROID_SHA),
-    url = "https://github.com/Bencodes/rules_android/archive/{}.zip".format(RULES_ANDROID_SHA),
+    url = "https://github.com/arunkumar9t2/rules_android/archive/{}.zip".format(RULES_ANDROID_SHA),
 )
 
 load("@rules_android//:prereqs.bzl", "rules_android_prereqs")
@@ -45,13 +45,10 @@ register_toolchains(
 )
 
 # From https://github.com/Bencodes/rules_kotlin/commits/blee/fork/master-napt-1.8-rules-android-pre-alpha
-RULES_KOTLIN_SHA = "3c433032a29c13db78fcc4d092839642b0e0b3c1"
-
 http_archive(
     name = "rules_kotlin",
-    integrity = "sha256-OtmSQrXLISwUH4oyZtM6onu6mAjH4Pct+6HHZRm/Ylw=",
-    strip_prefix = "rules_kotlin-{}".format(RULES_KOTLIN_SHA),
-    url = "https://github.com/Bencodes/rules_kotlin/archive/{}.zip".format(RULES_KOTLIN_SHA),
+    sha256 = "76c0fcc2c23edf736320aded1acd9dde0bae418e5731df12933d886cba86b795",
+    url = "https://github.com/bazelbuild/rules_kotlin/releases/download/v1.9.4/rules_kotlin-v1.9.4.tar.gz",
 )
 
 # While this is not supposed to be needed using an archive, @rules_proto is not resolved without it

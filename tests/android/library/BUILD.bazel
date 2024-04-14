@@ -14,9 +14,12 @@ kt_android_library(
     ],
     deps = [
         "//third_party:parcelize",
+        "//:android_sdk",
         "@maven_slack//:com_google_android_material_material",
-        "@maven_slack//:androidx_annotation_annotation",
+        "@maven_slack//:androidx_annotation_annotation_jvm",
         "@maven_slack//:androidx_appcompat_appcompat",
         "@maven_slack//:androidx_databinding_viewbinding",
+        "@maven_slack//:androidx_databinding_databinding_common",
+        "@maven_slack//:androidx_databinding_databinding_runtime",
     ],
 )
