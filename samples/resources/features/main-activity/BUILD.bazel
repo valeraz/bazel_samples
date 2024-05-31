@@ -1,0 +1,22 @@
+load("@rules_android//android:rules.bzl", "android_binary", "android_library")
+
+#load("@rules_kotlin//kotlin:android.bzl", "kt_android_library")
+load("//bazel/macros:module.bzl", "kt_android_library")
+
+kt_android_library(
+    name = "main-activity",
+    custom_package = "com.slack.sample",  # not having this results in NPE
+    #    srcs = glob(["src/main/**/*.kt"]),
+    manifest = "src/main/AndroidManifest.xml",
+    plugins = ["//third_party:jetpack_compose_compiler_plugin"],
+    #    resources = glob(["src/main/res/**"]),
+    deps = [
+        "@maven_slack//:androidx_activity_activity_compose",
+        "@maven_slack//:androidx_compose_material3_material3",
+        "@maven_slack//:androidx_compose_ui_ui",
+        "@maven_slack//:androidx_compose_ui_ui_graphics",
+        "@maven_slack//:androidx_compose_ui_ui_tooling_preview",
+        "@maven_slack//:androidx_core_core_ktx",
+        "@maven_slack//:androidx_lifecycle_lifecycle_runtime_ktx",
+    ],
+)

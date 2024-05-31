@@ -5,15 +5,16 @@ load("@rules_kotlin//kotlin:core.bzl", "define_kt_toolchain", "kt_kotlinc_option
 
 package(default_visibility = ["//visibility:public"])
 
-# This can be removed once this is merged and released: https://github.com/bazelbuild/rules_kotlin/pull/1111
+_WARNINGS = ["load,load-on-top,out-of-order-load,unsorted-dict-items"]
+
 define_kt_toolchain(
     name = "kotlin_toolchain",
     api_version = "1.9",
     jvm_target = "17",
+    # Some of these should only be applied to certain modules. Apply all globally during eval.
+    kotlinc_options = ":slack_opt_ins",
     language_version = "1.9",
 )
-
-_WARNINGS = ["load,load-on-top,out-of-order-load,unsorted-dict-items"]
 
 # Autocorrects. Used for local development.
 buildifier(
@@ -37,12 +38,18 @@ buildifier_test(
 
 kt_kotlinc_options(
     name = "slack_opt_ins",
+    x_assertions = "jvm",
+    x_emit_jvm_type_annotations = True,
+    x_jspecify_annotations = "strict",
+    x_jsr_305 = "strict",
+    x_jvm_default = "all",
     x_optin = [
         "kotlin.contracts.ExperimentalContracts",
         "kotlin.experimental.ExperimentalTypeInference",
         "kotlin.ExperimentalStdlibApi",
         "kotlin.time.ExperimentalTime",
     ],
+    x_type_enhancement_improvements_strict_mode = True,
 )
 
 # # Custom Toolchain
@@ -76,7 +83,6 @@ android_toolchain(
     # have the correct patches, and will as a result just crash.
     # TODO Remove this once rules_android properly supports Bzlmod
     android_resources_busybox = ":ResourceProcessorBusyBox_deploy.jar",
-    # import_deps_checker = ":ImportDepsChecker"
     visibility = ["//visibility:public"],
 )
 

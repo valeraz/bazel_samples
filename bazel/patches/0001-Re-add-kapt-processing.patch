@@ -1,0 +1,16 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Erik Kerber <ekerber@slack-corp.com>
+Date: Tue, 7 May 2024 23:08:14 -0500
+Subject: Re-add kapt processing
+
+
+diff --git a/src/main/kotlin/shade.jarjar b/src/main/kotlin/shade.jarjar
+index c96b5a1..cbfd0be 100644
+--- src/main/kotlin/shade.jarjar
++++ src/main/kotlin/shade.jarjar
+@@ -1 +1,2 @@
+ rule dagger.** io.bazel.kotlin.builder.dagger.@1
++rule com.google.common.** io.bazel.kotlin.builder.guava.@1
+--
+2.44.0
+
