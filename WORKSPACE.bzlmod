@@ -18,11 +18,11 @@ local_repository(
 
 # rules_android
 # From https://github.com/Bencodes/rules_android/commits/blee/fork/main/
-RULES_ANDROID_SHA = "75b8ed4ab64eff0875d84c777551f1e9f5b94c04"
+RULES_ANDROID_SHA = "c382c934455fc4d8853676e592e7cf224aca7d64"
 
 http_archive(
     name = "rules_android",
-    integrity = "sha256-HS9ALajRGIHJa4XvJEVvHo2Xg9di82DqJsU7WIC+us4=",
+    integrity = "sha256-xMF3R/dTOihdaBaNkx20mrzSqHm3yryf1csA9ItG/Tc=",
     strip_prefix = "rules_android-{}".format(RULES_ANDROID_SHA),
     url = "https://github.com/Bencodes/rules_android/archive/{}.zip".format(RULES_ANDROID_SHA),
 )
@@ -48,6 +48,8 @@ register_toolchains(
     # "@rules_android//toolchains/android_sdk:android_sdk_tools",
 )
 
+# Fork of rules_kotlin from 
+# https://github.com/Bencodes/rules_kotlin/commits/blee/fork/master-napt-1.8-rules-android-pre-alpha
 RULES_KOTLIN_SHA = "3c433032a29c13db78fcc4d092839642b0e0b3c1"
 
 http_archive(

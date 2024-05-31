@@ -65,13 +65,6 @@ build --define=namespaced_r_class=true
 common --noincompatible_enable_android_toolchain_resolution
 common --noincompatible_enable_cc_toolchain_resolution
 
-#########################
-# BuildBuddy — Event Streaming
-
-# BES backend and results URL drive build traces on buildbuddy.io
-build:buildbuddy --bes_backend=grpcs://remote.buildbuddy.io
-build:buildbuddy --bes_results_url=https://app.buildbuddy.io/invocation/
-
 ########################
 # Cache
 
@@ -95,43 +88,6 @@ build --disk_cache=~/.cache/bazel-disk-cache
 
 # --noremote_upload_local_results should not apply to the disk_cache
 build --incompatible_remote_results_ignore_disk
-
-#########################
-# Cache — Remote
-
-# Config that turns on remote cache for BuildBuddy
-build:buildbuddy_cache --remote_cache=grpcs://slack.buildbuddy.io --config=buildbuddy
-build:buildbuddy_cache --experimental_remote_cache_eviction_retries=1
-build:buildbuddy_cache --experimental_remote_cache_ttl=3h
-build:buildbuddy_cache --experimental_remote_cache_lease_extension=true
-# When using a remote cache, give many more jobs than the default num_cores to help paralellize downloads
-build:buildbuddy_cache --jobs=200
-
-#######################
-# CI
-
-# BuildBuddy: Special tracking for CI builds
-build:ci --build_metadata=ROLE=CI
-
-# CI populates the remote cache for other CI builds to read from
-build:ci --remote_upload_local_results
-
-# Use the remote cache on CI by default
-build:ci --config=buildbuddy_cache
-
-######################
-# Devlocity
-common:develocity --bes_results_url=https://gradle-enterprise.tinyspeck.com/build/
-common:develocity --bes_backend=grpcs://gradle-enterprise.tinyspeck.com
-common:develocity --build_event_publish_all_actions=true
-common:develocity --noslim_profile
-
-# Add an additional config layer to adapt to different levels of developcity permissions
-common:develocity_remote --config=develocity
-common:develocity_remote --remote_cache=grpcs://gradle-enterprise.tinyspeck.com
-
-# BuildBuddy credentials
-try-import auth.bazelrc
 
 # Optional user-specific bazelrc file
 try-import user.bazelrc

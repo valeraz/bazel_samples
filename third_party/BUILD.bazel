@@ -40,7 +40,6 @@ kt_jvm_library(
 kt_compiler_plugin(
     name = "redacted_compiler_plugin",
     id = "dev.zacsweers.redacted.compiler",
-    # these are already defaults, so we shouldn't need them?
     options = {
         "enabled": "true",
         "redactedAnnotation": "dev/zacsweers/redacted/annotations/Redacted",
