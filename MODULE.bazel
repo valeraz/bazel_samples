@@ -139,7 +139,6 @@ MAVEN_ARTIFACTS = [
     "com.slack.circuit:circuitx-overlays-android:0.20.0",
     "com.slack.circuit:circuit-codegen:0.20.0",
     "com.slack.circuit:circuitx-android:0.20.0",
-    "com.slack.data:client-thrifty:2.1.151",
     "com.slack.eithernet:eithernet:1.8.1",
     "com.slack.lint:slack-lint-annotations:0.7.1",
     "com.slack.moshi:gson-interop:0.4.3",
@@ -175,7 +174,6 @@ MAVEN_ARTIFACTS = [
     "io.github.inflationx:viewpump:2.1.1",
     "io.reactivex.rxjava3:rxandroid:3.0.2",
     "io.reactivex.rxjava3:rxjava:3.1.8",
-    "io.requery:sqlite-android:3.39.3-slack01",
     "javax.inject:javax.inject:1",
     "org.jetbrains.kotlinx:kotlinx-collections-immutable-jvm:0.3.7",
     "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0",
@@ -241,7 +239,6 @@ maven.install(
     fail_if_repin_required = False,
     lock_file = "//:maven_install.json",
     repositories = [
-        "https://slack.jfrog.io/slack/libs-android",
         "https://maven.google.com",
         "https://repo1.maven.org/maven2",
     ],
