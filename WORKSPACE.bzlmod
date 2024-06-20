@@ -1,4 +1,3 @@
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("//bazel/rules:android_sdk_repository.bzl", "android_sdk_repository")
 
 android_sdk_repository(
@@ -13,5 +12,5 @@ android_sdk_repository(
 ## Build bazel build //tools/android/runtime_deps:android_tools --experimental_cc_shared_library
 local_repository(
     name = "android_tools",
-    path = "android_tools"
+    path = "android_tools",
 )

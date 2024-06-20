@@ -1,5 +1,3 @@
-load("@rules_android//android:rules.bzl", "android_binary", "android_library")
-
 #load("@rules_kotlin//kotlin:android.bzl", "kt_android_library")
 load("//bazel/macros:module.bzl", "kt_android_library")
 
