@@ -54,6 +54,8 @@ common --android_databinding_use_v3_4_args
 common --experimental_android_databinding_v2
 common --incompatible_disable_native_android_rules=true
 
+common --nodesugar_for_android
+
 # Required for apps using namespaced resources
 build --define=namespaced_r_class=true
 
