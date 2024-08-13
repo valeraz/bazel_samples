@@ -2,9 +2,9 @@ module(name = "slack-android-ng")
 
 include("//:maven.MODULE.bazel")
 
-bazel_dep(name = "rules_java", version = "7.6.1")
-bazel_dep(name = "rules_jvm_external", version = "6.1")
-bazel_dep(name = "bazel_skylib", version = "1.6.1")
+bazel_dep(name = "rules_java", version = "7.7.0")
+bazel_dep(name = "rules_jvm_external", version = "6.2")
+bazel_dep(name = "bazel_skylib", version = "1.7.1")
 bazel_dep(name = "buildifier_prebuilt", version = "6.4.0")
 bazel_dep(name = "apple_support", version = "1.15.1")
 bazel_dep(name = "rules_proto", version = "6.0.0")
@@ -15,11 +15,11 @@ bazel_dep(name = "rules_kotlin", version = "0.0.0")
 # rules_android should be overridden below (use 0.0.0 as a safety net)
 bazel_dep(name = "rules_android", version = "0.0.0")
 
-RULES_KOTLIN_SHA = "45ff04ce7859d2234e110ff641835ca093f87928"
+RULES_KOTLIN_SHA = "661e13ac3bc7c7195408bf22855b637d3379ade0"
 
 archive_override(
     module_name = "rules_kotlin",
-    integrity = "sha256-momTwNPuSbaTD6zfFBcZP2bqynTAOgRe7fr/1qM7VMA=",
+    integrity = "sha256-bJ2to0441Y7hcOuKXxL9X2W4qbrDfe4mQAVBzPXRxmk=",
     patches = [
         "//bazel/patches:0001-Re-add-kapt-processing.patch",
         "//bazel/patches:0002-Shade-Guava.patch",
@@ -43,11 +43,11 @@ rules_kotlin_extensions.ksp_version(
 )
 use_repo(rules_kotlin_extensions)
 
-RULES_ANDROID_SHA = "8d7df2f403839a51aed171fdfc5638650b51222e"
+RULES_ANDROID_SHA = "5eb812227658d3a2691dae731a9c07e9d41c6323"
 
 archive_override(
     module_name = "rules_android",
-    integrity = "sha256-ThxAHroLg5WGpjepI2gBLobibzwGsRaZw9kq4oBdolU=",
+    integrity = "sha256-Lx9Sk7K05K2BknkOhPJTCb2ogrCEWyALjTZZuL55Eyo=",
     strip_prefix = "rules_android-{}".format(RULES_ANDROID_SHA),
     urls = ["https://github.com/bencodes/rules_android/archive/{}.zip".format(RULES_ANDROID_SHA)],
 )

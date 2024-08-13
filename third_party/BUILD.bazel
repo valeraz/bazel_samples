@@ -1,3 +1,4 @@
+load("@rules_android//android:rules.bzl", "aar_import")
 load("@rules_kotlin//kotlin:core.bzl", "kt_compiler_plugin", "kt_ksp_plugin")
 load("@rules_kotlin//kotlin:jvm.bzl", "kt_jvm_import", "kt_jvm_library")
 
@@ -40,6 +41,7 @@ kt_jvm_library(
 kt_compiler_plugin(
     name = "redacted_compiler_plugin",
     id = "dev.zacsweers.redacted.compiler",
+    # these are already defaults, so we shouldn't need them?
     options = {
         "enabled": "true",
         "redactedAnnotation": "dev/zacsweers/redacted/annotations/Redacted",
@@ -63,20 +65,8 @@ kt_jvm_library(
     ],
 )
 
-kt_compiler_plugin(
-    name = "moshix_compiler_plugin",
-    id = "dev.zacsweers.moshix.compiler",
-    options = {
-        "debug": "false",
-        # TODO this shouldn't always be enabled though
-        "enableSealed": "true",
-        "enabled": "true",
-        "generatedAnnotation": "javax/annotation/processing/Generated",
-    },
-    deps = [
-        "@maven_slack//:dev_zacsweers_moshix_moshi_compiler_plugin",
-    ],
-)
+################
+# Moshi
 
 kt_ksp_plugin(
     name = "moshix_proguard_rulegen",
@@ -106,6 +96,24 @@ kt_jvm_library(
     ],
 )
 
+kt_compiler_plugin(
+    name = "moshix_compiler_plugin",
+    id = "dev.zacsweers.moshix.compiler",
+    options = {
+        "debug": "false",
+        # TODO this shouldn't always be enabled though
+        "enableSealed": "true",
+        "enabled": "true",
+        "generatedAnnotation": "javax/annotation/processing/Generated",
+    },
+    deps = [
+        "@maven_slack//:dev_zacsweers_moshix_moshi_compiler_plugin",
+    ],
+)
+
+################
+# Dagger
+
 java_plugin(
     name = "dagger_compiler",
     generates_api = True,
@@ -115,41 +123,19 @@ java_plugin(
     ],
 )
 
-java_library(
-    name = "dagger",
-    exported_plugins = [":dagger_compiler"],
-    exports = [
-        "@maven_slack//:com_google_dagger_dagger",
-        "@maven_slack//:javax_inject_javax_inject",
-    ],
-)
-
-kt_jvm_library(
-    name = "anvil",
-    exported_compiler_plugins = [":anvil_plugin"],
-    visibility = ["//visibility:public"],
-    exports = [
-        "@maven_slack//:com_squareup_anvil_annotations",
-    ],
-)
-
-kt_jvm_library(
-    name = "anvil_library",
-    exported_compiler_plugins = [":anvil_library_plugin"],
-    visibility = ["//visibility:public"],
-    exports = [
-        "@maven_slack//:com_squareup_anvil_annotations",
-    ],
-)
+#################
+# Anvil
 
 kt_compiler_plugin(
-    name = "anvil_plugin",
+    name = "anvil_kapt_no_factories",
     compile_phase = True,
     id = "com.squareup.anvil.compiler",
     options = {
         "anvil-cache-dir": "TODO",
         "generate-dagger-factories": "false",
+        "gradle-build-dir": "TODO",
         "gradle-project-dir": "TODO",
+        "ir-merges-file": "TODO",
         "src-gen-dir": "{generatedSources}",
         "track-source-files": "false",
     },
@@ -164,13 +150,15 @@ kt_compiler_plugin(
 )
 
 kt_compiler_plugin(
-    name = "anvil_library_plugin",
+    name = "anvil_kapt_with_factories",
     compile_phase = True,
     id = "com.squareup.anvil.compiler",
     options = {
         "anvil-cache-dir": "TODO",
         "generate-dagger-factories": "true",
+        "gradle-build-dir": "TODO",
         "gradle-project-dir": "TODO",
+        "ir-merges-file": "TODO",
         "src-gen-dir": "{generatedSources}",
         "track-source-files": "false",
     },
@@ -183,6 +171,18 @@ kt_compiler_plugin(
         "@maven_slack//:com_squareup_anvil_compiler",
     ],
 )
+
+# KSP variant of Anvil
+kt_ksp_plugin(
+    name = "anvil_ksp_plugin",
+    processor_class = "com.squareup.anvil.compiler.codegen.ksp.AnvilSymbolProcessorProvider",
+    deps = [
+        "@maven_slack//:com_squareup_anvil_compiler",
+    ],
+)
+
+################
+# Wire
 
 java_binary(
     name = "wire",
@@ -220,17 +220,10 @@ kt_ksp_plugin(
     ],
 )
 
-kt_ksp_plugin(
-    name = "anvil_ksp_plugin",
-    processor_class = "com.squareup.anvil.compiler.codegen.ksp.AnvilSymbolProcessorProvider",
-    deps = [
-        "@maven_slack//:com_squareup_anvil_compiler",
-    ],
-)
-
 # Pulled in manually to work around a "bug" in the published POM files
 # https://slack-pde.slack.com/archives/C06CSBC0WQ6/p1715029745511709
 kt_jvm_import(
     name = "molecule",
     jars = ["molecule-runtime-jvm-1.4.2.jar"],
+    deps = ["@maven_slack//:androidx_compose_runtime_runtime"],
 )

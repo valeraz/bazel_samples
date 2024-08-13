@@ -141,9 +141,8 @@ MAVEN_ARTIFACTS = [
     "com.slack.eithernet:eithernet:1.8.1",
     "com.slack.lint:slack-lint-annotations:0.7.1",
     "com.slack.moshi:gson-interop:0.4.3",
-    # update to 2.5.0-beta09 breaks app-startup-di
-    "com.squareup.anvil:annotations:2.5.0-beta07",
-    "com.squareup.anvil:compiler:2.5.0-beta07",
+    "com.squareup.anvil:annotations:2.5.0-beta11",
+    "com.squareup.anvil:compiler:2.5.0-beta11",
     "com.squareup.leakcanary:leakcanary-android:2.14",
     "com.squareup.leakcanary:plumber-android:2.14",
     "com.squareup.leakcanary:shark:2.14",
@@ -587,6 +586,30 @@ maven.artifact(
     version = "00259",
 )
 
+maven.override(
+    name = "maven_slack",
+    coordinates = "io.requery:sqlite-android",
+    target = "//third_party:io_requery_sqlite_android",
+)
+
+maven.override(
+    name = "maven_slack",
+    coordinates = "com.slack.circuit:circuitx-android",
+    target = "//third_party:com_slack_circuit_circuitx_android",
+)
+
+maven.override(
+    name = "maven_slack",
+    coordinates = "slack.internal:android-emoji-model",
+    target = "//third_party:slack_internal_android_emoji_model",
+)
+
+maven.override(
+    name = "maven_slack",
+    coordinates = "com.squareup.leakcanary:leakcanary-object-watcher",
+    target = "//third_party:com_squareup_leakcanary_leakcanary_object_watcher_android",
+)
+
 # end Workaround for Vulcan cycle in dependency graph error
 
 maven.install(
@@ -594,8 +617,7 @@ maven.install(
     # This defaults to the old @io_bazel_rules_android, which is why it is overridden.
     aar_import_bzl_label = "@rules_android//android:rules.bzl",
     artifacts = MAVEN_ARTIFACTS + FORCED_MAVEN_ARTIFACTS +
-                # TODO — these are hardcoded here until an Airin Feature can be written
-                #        to add these as part of general Bazel automation
+                # TODO — these are hardcoded here until an Airin Feature can be written to add these as part of general Bazel automation
                 [
                     "com.squareup.wire:wire-runtime-jvm:4.9.9",
                     "com.squareup.wire:wire-compiler:4.9.9",

@@ -1,16 +1,29 @@
-load("//bazel/rules:android_sdk_repository.bzl", "android_sdk_repository")
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+# load("//bazel/rules:android_sdk_repository.bzl", "android_sdk_repository")
+
+# android_sdk_repository(
+#     name = "androidsdk",
+#     api_level = 34,
+#     build_tools_version = "34.0.0",
+#     workspace_name = "_main",
+# )
 
 android_sdk_repository(
     name = "androidsdk",
-    api_level = 34,
-    build_tools_version = "34.0.0",
-    workspace_name = "_main",
+    api_level = 35,
+    build_tools_version = "35.0.0",
+)
+
+android_ndk_repository(
+    name = "androidndk",
 )
 
 ## Points to a local build of android_tools from Ben's fork https://github.com/Bencodes/bazel/commits/blee/fork/8.0.0-pre.20240303.2
 ## Built at commit: da7dd5a2e3031112d59246b908a5120a05ddee00
 ## Build bazel build //tools/android/runtime_deps:android_tools --experimental_cc_shared_library
-local_repository(
+## Published manually to our artifactory
+http_archive(
     name = "android_tools",
-    path = "android_tools",
+    sha256 = "088372853f05eee25822b394674a5bb4ee62b3f03c4a55f76977ea0e510f306e",
+    url = "https://slack.jfrog.io/artifactory/bazel/tools/android/runtime_deps/da7dd5a2/android_tools.tar",
 )
